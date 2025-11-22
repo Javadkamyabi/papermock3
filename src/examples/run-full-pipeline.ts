@@ -156,6 +156,7 @@ async function main() {
 
     // Step 6: Run Module 6
     console.log('📄 Step 6/16: Running Module 6 (ArgumentationAndClaimSupportAnalyzer)...');
+    await new Promise(resolve => setTimeout(resolve, 3000)); // Delay to avoid rate limits
     const result6 = await modules.module6.process(finalDocumentId, paperId, pdfPath);
     if (!result6 || !result6.success) {
       throw new Error(`Module 6 failed: ${result6?.error || 'Unknown error'}`);
@@ -164,6 +165,7 @@ async function main() {
 
     // Step 7: Run Module 7
     console.log('📄 Step 7/16: Running Module 7 (MethodologyQualityAnalyzer)...');
+    await new Promise(resolve => setTimeout(resolve, 3000)); // Delay to avoid rate limits
     const result7 = await modules.module7.process(finalDocumentId, paperId, pdfPath);
     if (!result7 || !result7.success) {
       throw new Error(`Module 7 failed: ${result7?.error || 'Unknown error'}`);
@@ -172,6 +174,7 @@ async function main() {
 
     // Step 8: Run Module 8
     console.log('📄 Step 8/16: Running Module 8 (DatasetAndDataReliabilityAnalyzer)...');
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Delay to avoid rate limits
     const result8 = await modules.module8.process(finalDocumentId, paperId, pdfPath);
     if (!result8 || !result8.success) {
       throw new Error(`Module 8 failed: ${result8?.error || 'Unknown error'}`);
@@ -180,6 +183,7 @@ async function main() {
 
     // Step 9: Run Module 9
     console.log('📄 Step 9/16: Running Module 9 (NoveltyAndContributionAnalyzer)...');
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Delay to avoid rate limits
     const result9 = await modules.module9.process(finalDocumentId, paperId, pdfPath);
     if (!result9 || !result9.success) {
       throw new Error(`Module 9 failed: ${result9?.error || 'Unknown error'}`);
@@ -188,6 +192,7 @@ async function main() {
 
     // Step 10: Run Module 10
     console.log('📄 Step 10/16: Running Module 10 (LiteratureReviewAnalyzer)...');
+    await new Promise(resolve => setTimeout(resolve, 3000)); // Delay to avoid rate limits
     const result10 = await modules.module10.process(finalDocumentId, paperId, pdfPath);
     if (!result10 || !result10.success) {
       throw new Error(`Module 10 failed: ${result10?.error || 'Unknown error'}`);
@@ -196,6 +201,7 @@ async function main() {
 
     // Step 11: Run Module 11
     console.log('📄 Step 11/16: Running Module 11 (AIBC-CoherenceAnalyzer)...');
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Delay to avoid rate limits
     const result11 = await modules.module11.process(finalDocumentId, paperId, pdfPath);
     if (!result11 || !result11.success) {
       throw new Error(`Module 11 failed: ${result11?.error || 'Unknown error'}`);
@@ -204,6 +210,7 @@ async function main() {
 
     // Step 12: Run Module 12
     console.log('📄 Step 12/16: Running Module 12 (ResultsAndStatisticalSoundnessAnalyzer)...');
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Delay to avoid rate limits
     const result12 = await modules.module12.process(finalDocumentId, paperId, pdfPath);
     if (!result12 || !result12.success) {
       throw new Error(`Module 12 failed: ${result12?.error || 'Unknown error'}`);
@@ -212,6 +219,7 @@ async function main() {
 
     // Step 13: Run Module 13
     console.log('📄 Step 13/16: Running Module 13 (RobustnessAndGeneralizationAnalyzer)...');
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Delay to avoid rate limits
     const result13 = await modules.module13.process(finalDocumentId, paperId, pdfPath);
     if (!result13 || !result13.success) {
       throw new Error(`Module 13 failed: ${result13?.error || 'Unknown error'}`);
@@ -220,6 +228,7 @@ async function main() {
 
     // Step 14: Run Module 14
     console.log('📄 Step 14/16: Running Module 14 (EthicsReproducibilityTransparencyAnalyzer)...');
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Delay to avoid rate limits
     const result14 = await modules.module14.process(finalDocumentId, paperId, pdfPath);
     if (!result14 || !result14.success) {
       throw new Error(`Module 14 failed: ${result14?.error || 'Unknown error'}`);

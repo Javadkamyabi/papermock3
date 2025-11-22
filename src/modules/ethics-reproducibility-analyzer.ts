@@ -1,5 +1,5 @@
 /**
- * Module 14: EthicsReproducibilityTransparencyAnalyzer
+import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js'; * Module 14: EthicsReproducibilityTransparencyAnalyzer
  * Evaluates ethical responsibility, reproducibility quality, and transparency
  * Uses structured information from Module 2 (structure) and Module 6 (claims)
  * Does NOT analyze datasets, methodology, statistical validity, novelty, robustness, literature review, writing, argument, abstract/intro, or structure

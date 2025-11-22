@@ -46,11 +46,50 @@ export async function callOpenAI(
     content: prompt,
   });
 
-  const response = await openai.chat.completions.create({
-    model,
-    messages,
-    temperature: 0.7,
-  });
+  // Retry logic for rate limits
+  let retries = 3;
+  let lastError: any = null;
+  
+  while (retries > 0) {
+    try {
+      const response = await openai.chat.completions.create({
+        model,
+        messages,
+        temperature: 0.7,
+      });
+      
+      if (!response.choices || response.choices.length === 0) {
+        throw new Error('No response from OpenAI');
+      }
+      
+      return response.choices[0].message?.content || '';
+    } catch (error: any) {
+      lastError = error;
+      
+      // Check if it's a rate limit error
+      if (error?.code === 'rate_limit_exceeded' || error?.message?.includes('rate limit')) {
+        retries--;
+        if (retries === 0) {
+          throw error;
+        }
+        
+        // Extract retry-after from headers or use exponential backoff
+        const retryAfter = error?.response?.headers?.['retry-after'] || 
+                          error?.response?.headers?.['x-ratelimit-reset-tokens'] ||
+                          '5';
+        const waitTime = Math.min(parseFloat(retryAfter) * 1000 || 5000, 60000); // Max 60 seconds
+        
+        console.warn(`Rate limit hit, waiting ${(waitTime/1000).toFixed(1)}s before retry (${retries} attempts left)...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+        continue;
+      }
+      
+      // For other errors, throw immediately
+      throw error;
+    }
+  }
+  
+  throw lastError;
 
   return response.choices[0]?.message?.content || '';
 }

@@ -9,6 +9,7 @@ import { BaseAssessmentModule } from './base.js';
 import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
+import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js';
 import type { ModuleConfig } from '../types/index.js';
 
 interface StructuredText {
@@ -349,10 +350,23 @@ export class MethodologyQualityAnalyzerModule extends BaseAssessmentModule {
       // Get argumentation summary (optional)
       const argumentationSummary = await this.getArgumentationSummary(searchId);
 
+      // Truncate structured text if too large to prevent rate limits
+      let processedStructuredText = structuredText;
+      const estimatedTokens = estimateTokens(JSON.stringify(structuredText));
+      
+      if (estimatedTokens > 25000) {
+        console.log(`  [Module 7] Input too large (${estimatedTokens} tokens), truncating...`);
+        processedStructuredText = truncateStructuredText(structuredText, 4000, [
+          'abstract', 'introduction', 'methodology', 'methods', 'experimental_setup', 'data', 'evaluation', 'results', 'conclusion', 'discussion'
+        ]);
+        const newTokens = estimateTokens(JSON.stringify(processedStructuredText));
+        console.log(`  [Module 7] Truncated to ${newTokens} tokens`);
+      }
+
       // Prepare input for LLM
       const input: Module7Input = {
         document_id: documentId,
-        structured_text: structuredText,
+        structured_text: processedStructuredText,
         argumentation_summary: argumentationSummary,
       };
 

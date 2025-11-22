@@ -463,10 +463,37 @@ You MUST:
 - Resolve conflicts between module outputs when necessary
 - Produce a clean, consistent final report`;
 
+      // Truncate input if too large to prevent issues
+      const inputStr = JSON.stringify(input, null, 2);
+      const estimatedTokens = Math.ceil(inputStr.length / 4);
+      
+      let processedInput = input;
+      if (estimatedTokens > 20000) {
+        console.log(`  [Module 15] Input too large (${estimatedTokens} tokens), truncating module outputs...`);
+        // Truncate each module's output
+        const truncatedModules: Record<string, any> = {};
+        for (const [moduleName, output] of Object.entries(moduleOutputs)) {
+          if (output && typeof output === 'object') {
+            const outputStr = JSON.stringify(output);
+            if (outputStr.length > 5000) {
+              truncatedModules[moduleName] = {
+                ...output,
+                summary: typeof output.summary === 'string' ? output.summary.substring(0, 2000) + '... [truncated]' : output.summary,
+              };
+            } else {
+              truncatedModules[moduleName] = output;
+            }
+          }
+        }
+        processedInput = { ...input, modules: truncatedModules };
+        const newTokens = Math.ceil(JSON.stringify(processedInput).length / 4);
+        console.log(`  [Module 15] Truncated to ${newTokens} tokens`);
+      }
+
       const userPrompt = `Integrate the outputs from ALL previous modules into a single coherent final report.
 
 INPUT DATA:
-${JSON.stringify(input, null, 2)}
+${JSON.stringify(processedInput, null, 2)}
 
 TASK:
 Produce the following major sections:

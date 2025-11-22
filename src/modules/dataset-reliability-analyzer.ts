@@ -9,6 +9,7 @@ import { BaseAssessmentModule } from './base.js';
 import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
+import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js';
 import type { ModuleConfig } from '../types/index.js';
 
 interface StructuredText {
@@ -319,10 +320,23 @@ export class DatasetAndDataReliabilityAnalyzerModule extends BaseAssessmentModul
         };
       }
 
+      // Truncate structured text if too large to prevent rate limits
+      let processedStructuredText = structuredText;
+      const estimatedTokens = estimateTokens(JSON.stringify(structuredText));
+      
+      if (estimatedTokens > 25000) {
+        console.log(`  [Module 8] Input too large (${estimatedTokens} tokens), truncating...`);
+        processedStructuredText = truncateStructuredText(structuredText, 4000, [
+          'abstract', 'introduction', 'methodology', 'data', 'dataset', 'experimental_setup', 'results', 'conclusion', 'discussion'
+        ]);
+        const newTokens = estimateTokens(JSON.stringify(processedStructuredText));
+        console.log(`  [Module 8] Truncated to ${newTokens} tokens`);
+      }
+
       // Prepare input for LLM
       const input: Module8Input = {
         document_id: documentId,
-        structured_text: structuredText,
+        structured_text: processedStructuredText,
       };
 
       // Call OpenAI to generate dataset analysis

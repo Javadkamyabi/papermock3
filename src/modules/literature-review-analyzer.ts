@@ -1,5 +1,5 @@
 /**
- * Module 10: LiteratureReviewAnalyzer
+import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js'; * Module 10: LiteratureReviewAnalyzer
  * Performs deep, comprehensive, multi-dimensional evaluation of the literature review
  * Uses structured information from Module 2 (structure) and Module 3 (citations)
  * Does NOT analyze citation correctness, novelty, methodology, dataset, structure, writing, or raw PDF

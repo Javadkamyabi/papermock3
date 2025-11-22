@@ -1,5 +1,5 @@
 /**
- * Module 9: NoveltyAndContributionAnalyzer
+import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js'; * Module 9: NoveltyAndContributionAnalyzer
  * Evaluates originality, contribution clarity, and scientific significance
  * Uses structured information from Module 2 (structure), Module 3 (citations), and Module 6 (claims)
  * Does NOT analyze writing, argumentation, methodology, datasets, structure, or raw PDF text

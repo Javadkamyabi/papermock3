@@ -1,5 +1,5 @@
 /**
- * Module 13: RobustnessAndGeneralizationAnalyzer
+import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js'; * Module 13: RobustnessAndGeneralizationAnalyzer
  * Analyzes how well the proposed method/model/system generalizes and how robust it is
  * Uses structured information from Module 2 (structure) and Module 6 (claims)
  * Does NOT analyze datasets, methodology, novelty, literature review, abstract/intro, results quality, statistical correctness, citations, structure, or writing

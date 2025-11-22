@@ -1,5 +1,5 @@
 /**
- * Module 11: AIBC-CoherenceAnalyzer (Abstract–Introduction–Background–Contributions)
+import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js'; * Module 11: AIBC-CoherenceAnalyzer (Abstract–Introduction–Background–Contributions)
  * Evaluates quality, correctness, internal coherence, and logical alignment of foundational sections
  * Uses structured information from Module 2 (structure) and Module 6 (claims)
  * Does NOT analyze related work, novelty, citations, datasets, methodology, or writing
