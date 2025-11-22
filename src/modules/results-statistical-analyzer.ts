@@ -10,7 +10,7 @@ import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface StructuredText {
   [sectionName: string]: string;
 }
@@ -341,6 +341,7 @@ export class ResultsAndStatisticalSoundnessAnalyzerModule extends BaseAssessment
 
       // Call OpenAI to generate results analysis
       const systemPrompt = `You are Module 12: "ResultsAndStatisticalSoundnessAnalyzer" for the PaperMock3 system. Your ONLY job is to perform comprehensive, rigorous evaluation of the Results section. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Evaluate dataset quality (Module 8 does this)
 - Evaluate methodology soundness or experiment design (Module 7 does this)
 - Evaluate novelty or contributions (Module 9 does this)

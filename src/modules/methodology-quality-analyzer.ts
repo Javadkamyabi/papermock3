@@ -10,6 +10,7 @@ import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
 import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js';
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 import type { ModuleConfig } from '../types/index.js';
 
 interface StructuredText {
@@ -372,6 +373,7 @@ export class MethodologyQualityAnalyzerModule extends BaseAssessmentModule {
 
       // Call OpenAI to generate methodology analysis
       const systemPrompt = `You are Module 7: "MethodologyQualityAnalyzer" for the PaperMock3 system. Your ONLY job is to evaluate the quality, rigor, clarity, and appropriateness of the methodology. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Parse raw PDF pages (use only structured_text provided)
 - Detect writing issues (Module 4 does this)
 - Evaluate citations formatting/recency (Module 3 does this)

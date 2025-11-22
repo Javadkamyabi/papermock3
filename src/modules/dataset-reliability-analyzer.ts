@@ -10,6 +10,7 @@ import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
 import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js';
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 import type { ModuleConfig } from '../types/index.js';
 
 interface StructuredText {
@@ -341,6 +342,7 @@ export class DatasetAndDataReliabilityAnalyzerModule extends BaseAssessmentModul
 
       // Call OpenAI to generate dataset analysis
       const systemPrompt = `You are Module 8: "DatasetAndDataReliabilityAnalyzer" for the PaperMock3 system. Your ONLY job is to provide deep, critical, comprehensive evaluation of ALL dataset-related aspects. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Detect writing issues (Module 4 does this)
 - Evaluate structure (Module 2 does this)
 - Evaluate argumentation (Module 6 does this)

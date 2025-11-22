@@ -10,7 +10,7 @@ import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface StructuredText {
   [sectionName: string]: string;
 }
@@ -350,6 +350,7 @@ export class RobustnessAndGeneralizationAnalyzerModule extends BaseAssessmentMod
 
       // Call OpenAI to generate robustness analysis
       const systemPrompt = `You are Module 13: "RobustnessAndGeneralizationAnalyzer" for the PaperMock3 system. Your ONLY job is to analyze how well the proposed method/model/system generalizes and how robust it is. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Evaluate dataset quality (Module 8 does this)
 - Evaluate methodology design (Module 7 does this)
 - Evaluate novelty (Module 9 does this)

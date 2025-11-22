@@ -8,7 +8,7 @@ import { BaseAssessmentModule } from './base.js';
 import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface StructuralInput {
   document_type: 'paper' | 'report' | 'thesis' | 'not_academic';
   document_text: string;

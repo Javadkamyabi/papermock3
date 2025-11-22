@@ -8,7 +8,7 @@
 import { BaseAssessmentModule } from './base.js';
 import { callOpenAIJSON } from '../openai/client.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface WritingIssueInput {
   document_id: string;
   page_id: string;

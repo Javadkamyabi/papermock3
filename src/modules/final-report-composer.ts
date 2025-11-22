@@ -9,7 +9,7 @@ import { callOpenAIJSON } from '../openai/client.js';
 import { getPaperAssessments } from '../db/storage.js';
 import { getDocument } from '../db/documents.js';
 import type { ModuleConfig, AssessmentResult } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface ModuleOutputs {
   [moduleName: string]: any;
 }
@@ -447,7 +447,9 @@ export class FinalReportComposerModule extends BaseAssessmentModule {
       const allIssues = this.extractAllIssues(moduleOutputs);
 
       // Call OpenAI to generate final report
-      const systemPrompt = `You are Module 15: "FinalReportComposer" for the PaperMock3 system. Your ONLY job is to integrate outputs from ALL previous modules (1-14) into a single coherent, structured report. You MUST NOT:
+          const systemPrompt = `You are Module 15: "FinalReportComposer" for the PaperMock3 system. Your ONLY job is to integrate outputs from ALL previous modules (1-14) into a single coherent, structured report. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
+${getAccuracyRulesSystemAddition()}
 - Invent new issues
 - Invent content not present in modules
 - Modify the meaning of issues

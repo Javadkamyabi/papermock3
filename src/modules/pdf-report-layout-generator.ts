@@ -14,7 +14,7 @@ import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { resolve, join } from 'path';
 import type { ModuleConfig, AssessmentResult } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface SubmissionMetadata {
   submission_id?: string;
   paper_title?: string;
@@ -132,6 +132,7 @@ export class PDFReportLayoutGeneratorModule extends BaseAssessmentModule {
 
       // Call OpenAI to generate LaTeX document
       const systemPrompt = `You are Module 16: "PDFReportLayoutGenerator" for the PaperMock3/PaperDig system. Your ONLY job is to take the FinalReportComposer output and generate a complete, compilable LaTeX document. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Invent new issues, strengths, weaknesses, or scores
 - Modify the meaning of content from Module 15
 - Change scores or verdict

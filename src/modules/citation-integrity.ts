@@ -8,7 +8,7 @@ import { BaseAssessmentModule } from './base.js';
 import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface CitationInput {
   document_text: string;
   document_type: 'paper' | 'thesis' | 'report' | 'not_academic';

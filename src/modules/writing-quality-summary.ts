@@ -9,7 +9,7 @@ import { callOpenAIJSON } from '../openai/client.js';
 import { getPaperAssessments } from '../db/storage.js';
 import { getLatestAssessment } from '../db/storage.js';
 import type { ModuleConfig, AssessmentResult } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface IssueSpan {
   char_start: number;
   char_end: number;
@@ -250,6 +250,7 @@ export class WritingQualitySummaryModule extends BaseAssessmentModule {
 
       // Call OpenAI to generate the summary
       const systemPrompt = `You are Module 5: "WritingQualitySummary" for the PaperMock3 system. Your ONLY job is to aggregate and interpret writing issues detected by Module 4B. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Find new issues
 - Analyze raw text
 - Comment on scientific correctness

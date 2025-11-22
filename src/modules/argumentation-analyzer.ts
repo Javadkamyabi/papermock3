@@ -11,7 +11,7 @@ import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
 import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface StructuredText {
   [sectionName: string]: string;
 }
@@ -390,6 +390,7 @@ export class ArgumentationAndClaimSupportAnalyzerModule extends BaseAssessmentMo
 
       // Call OpenAI to generate argumentation analysis
       const systemPrompt = `You are Module 6: "ArgumentationAndClaimSupportAnalyzer" for the PaperMock3 system. Your ONLY job is to analyze logical structure, claim-evidence alignment, and argumentation quality. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Analyze raw PDF text (use only structured_text provided)
 - Detect sentence-level writing issues (Module 4B does this)
 - Evaluate citation formatting or quality (Module 3 does this)

@@ -10,7 +10,7 @@ import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface StructuredText {
   [sectionName: string]: string;
 }
@@ -389,6 +389,7 @@ export class NoveltyAndContributionAnalyzerModule extends BaseAssessmentModule {
 
       // Call OpenAI to generate novelty analysis
       const systemPrompt = `You are Module 9: "NoveltyAndContributionAnalyzer" for the PaperMock3 system. Your ONLY job is to evaluate originality, contribution clarity, and scientific significance. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Analyze writing issues (Module 4 does this)
 - Evaluate argumentation logic (Module 6 does this)
 - Evaluate methodological soundness (Module 7 does this)

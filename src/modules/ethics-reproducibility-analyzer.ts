@@ -10,7 +10,7 @@ import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface StructuredText {
   [sectionName: string]: string;
 }
@@ -356,6 +356,7 @@ export class EthicsReproducibilityTransparencyAnalyzerModule extends BaseAssessm
 
       // Call OpenAI to generate ERT analysis
       const systemPrompt = `You are Module 14: "EthicsReproducibilityTransparencyAnalyzer" for the PaperMock3 system. Your ONLY job is to evaluate ethical responsibility, reproducibility quality, and transparency. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Evaluate dataset quality or balance (Module 8 does this)
 - Evaluate methodology soundness (Module 7 does this)
 - Evaluate statistical validity (Module 12 does this)

@@ -10,7 +10,7 @@ import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface StructuredText {
   [sectionName: string]: string;
 }
@@ -348,6 +348,7 @@ export class LiteratureReviewAnalyzerModule extends BaseAssessmentModule {
 
       // Call OpenAI to generate literature review analysis
       const systemPrompt = `You are Module 10: "LiteratureReviewAnalyzer" for the PaperMock3 system. Your ONLY job is to perform deep, comprehensive evaluation of the literature review. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Analyze citation correctness (Module 3 does this)
 - Evaluate novelty (Module 9 does this)
 - Evaluate methodology (Module 7 does this)

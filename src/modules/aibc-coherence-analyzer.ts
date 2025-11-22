@@ -10,7 +10,7 @@ import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 interface StructuredText {
   [sectionName: string]: string;
 }
@@ -342,6 +342,7 @@ export class AIBCCoherenceAnalyzerModule extends BaseAssessmentModule {
 
       // Call OpenAI to generate AIBC analysis
       const systemPrompt = `You are Module 11: "AIBC-CoherenceAnalyzer" for the PaperMock3 system. Your ONLY job is to evaluate quality, correctness, internal coherence, and logical alignment of Abstract, Introduction, Background, and Contributions sections. You MUST NOT:
+${getAccuracyRulesSystemAddition()}
 - Evaluate related work quality (Module 10 does this)
 - Evaluate novelty strength (Module 9 does this)
 - Evaluate citations (Module 3 does this)

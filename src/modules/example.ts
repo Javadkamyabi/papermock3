@@ -6,7 +6,7 @@
 import { BaseAssessmentModule } from './base.js';
 import { callOpenAIJSON } from '../openai/client.js';
 import type { ModuleConfig } from '../types/index.js';
-
+import { getAccuracyRulesSystemAddition } from '../config/accuracy-rules.js';
 export class ExampleModule extends BaseAssessmentModule {
   constructor() {
     const config: ModuleConfig = {
