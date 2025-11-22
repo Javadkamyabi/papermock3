@@ -88,6 +88,7 @@ export async function compileLaTeXToPDF(
       );
     } catch (e) {
       // First pass may have warnings, continue to second pass
+      console.log('  [PDF Compiler] First pass completed (warnings may be present)');
     }
     
     // Second compilation pass (for references, TOC, etc.)
@@ -98,6 +99,7 @@ export async function compileLaTeXToPDF(
       );
     } catch (e) {
       // Second pass may also have warnings, check if PDF was created
+      console.log('  [PDF Compiler] Second pass completed (warnings may be present)');
     }
     
     if (existsSync(pdfPath)) {
@@ -106,9 +108,20 @@ export async function compileLaTeXToPDF(
         pdfPath,
         method: 'docker',
       };
+    } else {
+      // Check if PDF was created with different name
+      const altPdfPath = resolve(dir, `${fileName}.pdf`);
+      if (existsSync(altPdfPath)) {
+        return {
+          success: true,
+          pdfPath: altPdfPath,
+          method: 'docker',
+        };
+      }
     }
   } catch (error) {
     // Docker not available or daemon not running
+    console.log('  [PDF Compiler] Docker method failed, trying alternatives...');
     // Continue to next method
   }
 
@@ -133,6 +146,23 @@ export async function compileLaTeXToPDF(
     }
   } catch (error) {
     // Continue
+  }
+
+  // Method 5: Fallback to HTML-to-PDF conversion (using Puppeteer)
+  try {
+    console.log('  [PDF Compiler] Using HTML-to-PDF conversion (fallback method)...');
+    const { convertLaTeXToHTMLAndPDF } = await import('../utils/html-pdf-converter.js');
+    const htmlPdfResult = await convertLaTeXToHTMLAndPDF(latexPath, pdfPath);
+    
+    if (htmlPdfResult.success && existsSync(pdfPath)) {
+      return {
+        success: true,
+        pdfPath,
+        method: 'html-to-pdf (puppeteer)',
+      };
+    }
+  } catch (error) {
+    console.log('  [PDF Compiler] HTML-to-PDF conversion failed:', error instanceof Error ? error.message : String(error));
   }
 
   return {
