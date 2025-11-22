@@ -174,7 +174,7 @@ ${pageText}`;
 
       const result = await callOpenAIJSON<{ issues: WritingIssue[]; page_summary: string }>(
         prompt,
-        'gpt-4o-mini',
+        'gpt-4o',
         systemPrompt
       );
 

@@ -474,7 +474,7 @@ RULES:
 
       const llmResult = await callOpenAIJSON<ERTOutput>(
         userPrompt,
-        'gpt-4o-mini',
+        'gpt-4o',
         systemPrompt
       );
 

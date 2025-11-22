@@ -178,7 +178,7 @@ IMPORTANT:
     try {
       const result = await callOpenAIJSON<IngestionOutput>(
         prompt,
-        'gpt-4o-mini',
+        'gpt-4o',
         systemPrompt
       );
 

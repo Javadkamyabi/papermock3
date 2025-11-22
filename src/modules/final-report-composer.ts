@@ -552,7 +552,7 @@ RULES:
           console.log(`  [Module 15] Calling LLM (attempt ${4 - retries}/3)...`);
           llmResult = await callOpenAIJSON<FinalReportOutput>(
             userPrompt,
-            'gpt-4o-mini',
+            'gpt-4o', // Upgraded to gpt-4o for better quality
             systemPrompt
           );
           

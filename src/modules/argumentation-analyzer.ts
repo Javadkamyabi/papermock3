@@ -9,6 +9,7 @@ import { BaseAssessmentModule } from './base.js';
 import { callOpenAIJSON } from '../openai/client.js';
 import { getLatestAssessment } from '../db/storage.js';
 import { extractTextFromPDF } from '../pdf/parser.js';
+import { truncateStructuredText, estimateTokens } from '../utils/text-truncation.js';
 import type { ModuleConfig } from '../types/index.js';
 
 interface StructuredText {
@@ -484,7 +485,7 @@ RULES:
 
       const llmResult = await callOpenAIJSON<ArgumentationOutput>(
         userPrompt,
-        'gpt-4o-mini',
+        'gpt-4o',
         systemPrompt
       );
 

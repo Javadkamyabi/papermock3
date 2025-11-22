@@ -473,7 +473,7 @@ RULES:
 
       const llmResult = await callOpenAIJSON<RobustnessOutput>(
         userPrompt,
-        'gpt-4o-mini',
+        'gpt-4o',
         systemPrompt
       );
 

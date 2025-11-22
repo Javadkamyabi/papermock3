@@ -297,7 +297,7 @@ ${truncatedText.replace(/`/g, "'")}`;
     try {
       const result = await callOpenAIJSON<StructuralOutput>(
         prompt,
-        'gpt-4o-mini',
+        'gpt-4o',
         systemPrompt
       );
 

@@ -460,7 +460,7 @@ RULES:
 
       const llmResult = await callOpenAIJSON<DatasetOutput>(
         userPrompt,
-        'gpt-4o-mini',
+        'gpt-4o',
         systemPrompt
       );
 

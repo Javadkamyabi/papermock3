@@ -837,7 +837,7 @@ RULES:
     try {
       const result = await callOpenAIJSON<CitationOutput>(
         prompt,
-        'gpt-4o-mini',
+        'gpt-4o',
         systemPrompt
       );
 

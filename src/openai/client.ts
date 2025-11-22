@@ -75,10 +75,16 @@ export async function callOpenAIJSON<T = any>(
     // Enhanced JSON parsing with multiple fix attempts
     let jsonStr = response;
     
-    // Step 1: Try to extract JSON object/array from response
-    let jsonMatch = response.match(/\{[\s\S]*\}/);
+    // Step 1: Try to extract JSON from markdown code blocks first
+    const codeBlockMatch = response.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (codeBlockMatch) {
+      jsonStr = codeBlockMatch[1].trim();
+    }
+    
+    // Step 2: Try to extract JSON object/array from response
+    let jsonMatch = jsonStr.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
-      jsonMatch = response.match(/\[[\s\S]*\]/);
+      jsonMatch = jsonStr.match(/\[[\s\S]*\]/);
     }
     if (jsonMatch) {
       jsonStr = jsonMatch[0];

@@ -251,7 +251,7 @@ CRITICAL RULES:
       console.log('  [Module 16] Generating LaTeX document...');
       const llmResult = await callOpenAIJSON<PDFReportOutput>(
         userPrompt,
-        'gpt-4o-mini',
+        'gpt-4o', // Upgraded to gpt-4o for better LaTeX generation
         systemPrompt
       );
 
