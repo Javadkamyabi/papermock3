@@ -76,9 +76,29 @@ export async function callOpenAIJSON<T = any>(
     let jsonStr = response;
     
     // Step 1: Try to extract JSON from markdown code blocks first
-    const codeBlockMatch = response.match(/```(?:json)?\s*([\s\S]*?)```/);
-    if (codeBlockMatch) {
+    // Match ```json or ``` followed by content and closing ```
+    const codeBlockMatch = response.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
+    if (codeBlockMatch && codeBlockMatch[1]) {
       jsonStr = codeBlockMatch[1].trim();
+      // Try parsing immediately if we got clean JSON from code block
+      try {
+        return JSON.parse(jsonStr) as T;
+      } catch (e) {
+        // Continue with other fixes if parsing fails
+      }
+    }
+    
+    // Also try without newlines
+    if (jsonStr === response) {
+      const codeBlockMatch2 = response.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (codeBlockMatch2 && codeBlockMatch2[1]) {
+        jsonStr = codeBlockMatch2[1].trim();
+        try {
+          return JSON.parse(jsonStr) as T;
+        } catch (e) {
+          // Continue
+        }
+      }
     }
     
     // Step 2: Try to extract JSON object/array from response

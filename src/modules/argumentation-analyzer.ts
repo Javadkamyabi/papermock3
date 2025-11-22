@@ -367,10 +367,24 @@ export class ArgumentationAndClaimSupportAnalyzerModule extends BaseAssessmentMo
       // Get citation analysis
       const citationAnalysis = await this.getCitationAnalysis(searchId);
 
+      // Truncate structured text if too large to prevent rate limits
+      let processedStructuredText = structuredText;
+      const totalChars = Object.values(structuredText).reduce((sum, text) => sum + text.length, 0);
+      const estimatedTokens = estimateTokens(JSON.stringify(structuredText));
+      
+      if (estimatedTokens > 25000) {
+        console.log(`  [Module 6] Input too large (${estimatedTokens} tokens), truncating...`);
+        processedStructuredText = truncateStructuredText(structuredText, 4000, [
+          'abstract', 'introduction', 'methodology', 'results', 'conclusion', 'discussion'
+        ]);
+        const newTokens = estimateTokens(JSON.stringify(processedStructuredText));
+        console.log(`  [Module 6] Truncated to ${newTokens} tokens`);
+      }
+
       // Prepare input for LLM
       const input: Module6Input = {
         document_id: documentId,
-        structured_text: structuredText,
+        structured_text: processedStructuredText,
         citation_analysis: citationAnalysis,
       };
 
