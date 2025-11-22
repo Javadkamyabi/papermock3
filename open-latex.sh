@@ -1,0 +1,31 @@
+#!/bin/bash
+# Helper script to open LaTeX file and provide compilation instructions
+
+DOC_ID="c23dc41e-c53d-470b-a326-95846009693e"
+LATEX_FILE="data/reports/${DOC_ID}_review.tex"
+
+echo "=========================================="
+echo "LaTeX Report File Ready"
+echo "=========================================="
+echo ""
+echo "File: $LATEX_FILE"
+echo "Size: $(ls -lh "$LATEX_FILE" | awk '{print $5}')"
+echo ""
+echo "To compile to PDF:"
+echo ""
+echo "OPTION 1: Overleaf (Easiest - No Installation)"
+echo "  1. Go to: https://www.overleaf.com"
+echo "  2. Sign up/login (free)"
+echo "  3. Click 'New Project' > 'Blank Project'"
+echo "  4. Delete the default content"
+echo "  5. Copy and paste the contents of: $LATEX_FILE"
+echo "  6. Click 'Recompile' button"
+echo "  7. Download the PDF"
+echo ""
+echo "OPTION 2: Install BasicTeX (For Local Compilation)"
+echo "  Run: brew install --cask basictex"
+echo "  Then: cd data/reports && pdflatex ${DOC_ID}_review.tex"
+echo ""
+echo "Opening file location..."
+open -R "$LATEX_FILE" 2>/dev/null || echo "File location: $(pwd)/$LATEX_FILE"
+

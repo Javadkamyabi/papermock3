@@ -1,0 +1,38 @@
+{
+  "name": "papermock3",
+  "version": "1.0.0",
+  "description": "Modular PDF paper assessment system with OpenAI and local JSON storage",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pdf",
+    "openai",
+    "paper-assessment"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "latex.js": "^0.12.6",
+    "openai": "^4.52.0",
+    "pdf-lib": "^1.17.1",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/pdf-parse": "^1.1.4",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "node-latex": "^3.1.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.6.2"
+  }
+}
